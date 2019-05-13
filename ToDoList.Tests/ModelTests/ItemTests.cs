@@ -165,18 +165,21 @@ namespace ToDoList.Tests
     [TestMethod]
     public void GetCategories_ReturnsAllItemCategories_CategoryList()
     {
-      Item testItem = new Item("Mow the Dog");
+       //Arrange
+      Item testItem = new Item("Mow the lawn");
       testItem.Save();
-      Category testCategory1 = new Category("Homie stuff");
+      Category testCategory1 = new Category("Home stuff");
       testCategory1.Save();
-      Category testCategory2 = new Category ("WORKSTUFF");
+      Category testCategory2 = new Category("Work stuff");
       testCategory2.Save();
 
+      //Act
       testItem.AddCategory(testCategory1);
       List<Category> result = testItem.GetCategories();
       List<Category> testList = new List<Category> {testCategory1};
 
-      Assert.AreEqual(testCategory1, result);
+      //Assert
+      CollectionAssert.AreEqual(testList, result);;
     }
 
     [TestMethod]
@@ -190,9 +193,9 @@ namespace ToDoList.Tests
       testItem.AddCategory(testCategory);
 
       List<Category> result = testItem.GetCategories();
-      List<Category> testResult = new List<Category>{testCategory};
+      List<Category> testList = new List<Category>{testCategory};
 
-      Assert.AreEqual(testCategory,result);
+      CollectionAssert.AreEqual(testList,result);
     }
 
     [TestMethod]
