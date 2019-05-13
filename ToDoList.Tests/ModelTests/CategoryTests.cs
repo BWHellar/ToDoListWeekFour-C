@@ -115,5 +115,22 @@ namespace ToDoList.Tests
       CollectionAssert.AreEqual(newList, result);
     }
 
+    [TestMethod]
+    public void Delete_DeletersCategoryAssociationsFromDataBase_CategoryLIst()
+    {
+      Item testItem = new Item ("MOw the Lawn");
+      testItem.Save();
+      string testName = "Home stuff";
+      Category testCategory = new Category(testName);
+      testCategory.Save();
+
+      testCategory.AddItem(testItem);
+      testCategory.Delete();
+      List<Category> testItemCategories = testItem.GetCategories();
+      List<Category> testItemCategories = new List<Category> {};
+
+      CollectionAssert.AreEqual(testItemCategories, resultItemCategories);
+    }
+
   }
 }

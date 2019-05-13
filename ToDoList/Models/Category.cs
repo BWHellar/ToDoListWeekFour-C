@@ -1,19 +1,18 @@
 using System.Collections.Generic;
+using MySql.Data.MySqlClient;
 
 namespace ToDoList.Models
 {
   public class Category
   {
-    private static List<Category> _instances = new List<Category> {};
     private string _name;
     private int _id;
     private List<Item> _items;
 
-    public Category(string categoryName)
+    public Category(string categoryName, int id = 0)
     {
       _name = categoryName;
-      _instances.Add(this);
-      _id = _instances.Count;
+      _id = id;
       _items = new List<Item>{};
     }
 
@@ -34,22 +33,53 @@ namespace ToDoList.Models
 
     public static void ClearAll()
     {
-      _instances.Clear();
+      
     }
 
     public static List<Category> GetAll()
     {
-      return _instances;
+     
     }
 
-    public static Category Find(int searchId)
+    public static Category Find(int id)
     {
-      return _instances[searchId-1];
+      
     }
 
     public List<Item> GetItems()
     {
       return _items;
+    }
+
+    public void Delete()
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      MySqlCommand cmd = new MySqlCommand ("DELETE FROM categories WHERE id = @CategoryId; DELETE FROM categories_items WHERE category_id = @CategoryId;", conn);
+      MySqlParameter categoryIdParameter = new MySqlParameter();
+      categoryIdParameter.ParameterName = "@CategoryId";
+      categoryIdParameter.Value = this.GetId();
+      cmd.Parameters.Add(categoryIdParameter);
+      cmd.ExecuteNonQuery();
+      if(conn!=null)
+      {
+        conn.Close();
+        }
+    }
+
+    public override bool Equals(System.Object otherCategory)
+    {
+      if (!(otherCategory is Category))
+      {
+        return false;
+      }
+      else
+      {
+        Category newCategory = (Category) otherCategory;
+        bool idEquality = this.GetId().Equals(newCategory.GetId());
+        bool nameEquality = this.GetName().Equals(newCategory.GetName());
+        return (idEquality && nameEquality);
+      }
     }
 
   }
