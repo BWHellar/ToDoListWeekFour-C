@@ -118,7 +118,7 @@ namespace ToDoList.Tests
     [TestMethod]
     public void Delete_DeletersCategoryAssociationsFromDataBase_CategoryLIst()
     {
-      Item testItem = new Item ("MOw the Lawn");
+      Item testItem = new Item ("Mow the lawn");
       testItem.Save();
       string testName = "Home stuff";
       Category testCategory = new Category(testName);
@@ -126,11 +126,44 @@ namespace ToDoList.Tests
 
       testCategory.AddItem(testItem);
       testCategory.Delete();
-      List<Category> testItemCategories = testItem.GetCategories();
+      List<Category> resultItemCategories = testItem.GetCategories();
       List<Category> testItemCategories = new List<Category> {};
 
       CollectionAssert.AreEqual(testItemCategories, resultItemCategories);
     }
+    [TestMethod]
+    public void Test_AddItem_AddsItemToCategory()
+    {
+      Category testCategory = new Category ("HouseHoldChores");
+      testCategory.Save();
+      Item testItem = new Item ("MowtheLawn");
+      testItem.Save();
+      Item testItem2 = new Item("Water the Dog");
+      testItem2.Save();
 
+      testCategory.AddItem(testItem);
+      testCategory.AddItem(testItem2);
+      List<Item> result = testCategory.GetItems();
+      List<Item> testList = new List<Item>{testItem, testItem2};
+
+      Assert.AreEqual(testCategory, result);
+    }
+
+    [TestMethod]
+    public void GetItems_ReturnsAllCategoryItems_ItemList()
+    {
+      Category testCategory = new Category ("House");
+      testCategory.Save();
+      Item testItem1 = new Item ("Mow");
+      testItem1.Save();
+      Item testItem2 = new Item ("Buy");
+      testItem2.Save();
+
+      testCategory.AddItem(testItem1);
+      List<Item> savedItems = testCategory.GetItems();
+      List<Item> testList = new List<Item> {testItem1};
+
+      CollectionAssert.AreEqual(testList, savedItems);
+    }
   }
 }

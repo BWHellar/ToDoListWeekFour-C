@@ -176,7 +176,7 @@ namespace ToDoList.Tests
       List<Category> result = testItem.GetCategories();
       List<Category> testList = new List<Category> {testCategory1};
 
-      CollectionAssert.AreEqual(testCategory1, result);
+      Assert.AreEqual(testCategory1, result);
     }
 
     [TestMethod]
@@ -192,7 +192,7 @@ namespace ToDoList.Tests
       List<Category> result = testItem.GetCategories();
       List<Category> testResult = new List<Category>{testCategory};
 
-      CollectionAssert.AreEqual(testCategory,result);
+      Assert.AreEqual(testCategory,result);
     }
 
     [TestMethod]

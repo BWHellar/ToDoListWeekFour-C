@@ -249,5 +249,9 @@ namespace ToDoList.Models
       }
       return categories;
     }
+      public override int GetHashCode()
+        {
+        return this.GetId().GetHashCode();
+        }
   }
 }
